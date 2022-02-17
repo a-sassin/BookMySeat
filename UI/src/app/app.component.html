@@ -1,0 +1,40 @@
+<div *ngIf="!loggedIn">
+  <router-outlet></router-outlet>
+</div>
+<div *ngIf="loggedIn">
+  <app-header (menuClick)="toggleSidenav($event)"></app-header>
+
+  <mat-sidenav-container class="sidenav-container" autosize>
+    <mat-sidenav class="sidenav-drawer" #snav [mode]="'over'" autoFocus="false">
+      <mat-nav-list class="nav-list">
+        <div *ngFor="let item of sideNavItems; let i = index">
+          <div 
+          [routerLink]="item.route" 
+          [routerLinkActive]="'active-menu'"
+          class="nav-list-content"
+        >
+          <app-side-nav-item
+            [item]="item"
+            (itemExpanded)="itemExpanded($event, i)"
+          >
+        </app-side-nav-item>
+        </div>
+        
+        <ng-container *ngIf="i!=sideNavItems.length-1">
+          <mat-divider class="divider" *ngIf="item.displayName=='Reports' || item.displayName=='Unblock Facility'"></mat-divider>
+        </ng-container>
+        
+      </div>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="main-content-container">
+      <ng-container>
+        <div class="nav-content-container" role="main">
+          <div class="app-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </ng-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
