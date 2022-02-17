@@ -1,0 +1,24 @@
+<div class="container">
+  <mat-form-field>
+    <mat-label>Select Date</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="selectDate" [min]="minDate" [max]="maxDate" readonly
+      (dateChange)="onDateFilterChange($event)" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <div class="floors" *ngIf="floorList.length > 0 || showVisitReport">
+    <div *ngFor="let floor of floorList">
+      <div class="floor-container">
+        <div class="label">{{ getFloorDisplayValue(floor?.floorNo) }}</div>
+        <div class="info">{{ floor?.bookedSeatsCount }}/{{ floor?.totalSeatsCount }}</div>
+        <button mat-button color="primary" (click)="onViewDetails(floor?.facilityId, floor?.floorNo)"
+          [disabled]="floor?.totalSeatsCount===0 || floor?.bookedSeatsCount===0">
+          View Details
+        </button>
+      </div>
+    </div>
+    <ng-content *ngIf="isUserSuperAdmin || showVisitReport"></ng-content>
+  </div>
+
+  <div class="no-data" *ngIf="floorList.length === 0 && !showVisitReport">No Records Available</div>
+</div>

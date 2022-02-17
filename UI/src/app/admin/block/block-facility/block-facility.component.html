@@ -1,0 +1,118 @@
+<mat-spinner class="loader" *ngIf="loading"></mat-spinner>
+<div [ngClass]="data?'diaglox-form-card':'form-card'" data-auto="block-form-card">
+    <div class="head">
+      <div class="heading">{{!data?'Block Facililty':'Edit Block Facility'}}</div>
+    </div>
+    <hr [ngClass]="data?'dialog-divider':'divider'">
+    <div class="container" data-auto="block-form-content">
+      <form [formGroup]="blockFacilityForm" data-auto="block-form">
+
+       <!-- date selection radio button -->
+       <div [ngClass]="data?'dialog-radio-button':'radio-buttons'">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="1" class="radio" color="primary" (click)="dateRangeRadio()" checked="true">
+            Date range
+          </mat-radio-button>
+          <mat-radio-button value="2" class="radio" color="primary" (click)="IndefiniteRadio()">
+            Indefinite
+          </mat-radio-button>
+        </mat-radio-group>
+       </div>
+
+        <!-- date range selection  -->
+        <mat-form-field appearance="outline" class="form-field" data-auto="block-form-date-range-field" *ngIf="isIndefinite">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input formGroupName="dateRange" [rangePicker]="picker" [min]="todaysDate" [max]="maxDate">
+            <input matStartDate formControlName="start" placeholder="Start date" readonly />
+            <input matEndDate formControlName="end" placeholder="End date" readonly />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-error *ngIf="blockFacilityForm.get('dateRange.start').errors || blockFacilityForm.get('dateRange.end').errors">
+            Please select the valid date range.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- indefinite date select  -->
+        <mat-form-field class="form-field" appearance="outline" data-auto="block-form-indefinite-date-field" *ngIf="!isIndefinite">
+          <mat-label>Enter a date</mat-label>
+          <input matInput [matDatepicker]="picker" [min]="todaysDate" [max]="maxDate" formControlName="fromDate" 
+          placeholder="Enter date" readonly />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="blockFacilityForm.get('fromDate').errors">Please select date.</mat-error>
+        </mat-form-field>
+
+        <!-- select facility list -->
+        <mat-form-field class="form-field" appearance="outline" data-auto="block-form-select-facility-field">
+          <mat-label>Select Facility</mat-label>
+          <mat-select formControlName="facility" (selectionChange)="onFacilityChange($event)" name="facility"
+            data-auto="block-form-select-facility-mat-select">
+            <div *ngIf="!data else editFacility">
+              <mat-option *ngFor="let facility of facilityList" [value]="facility.facilityID">
+                {{facility.facilityName}}
+              </mat-option>
+            </div>
+            <ng-template #editFacility>
+              <mat-option [value]="data?.building" readonly>{{data?.building}}</mat-option>
+            </ng-template>
+          </mat-select>
+          <mat-error *ngIf="blockFacilityForm.controls.facility.errors?.required">Please select facility.</mat-error>
+        </mat-form-field>
+
+        <!-- select floor form selected facility -->
+          <mat-form-field class="form-field" appearance="outline" data-auto="block-form-floors-field" *ngIf="floors.length">
+            <mat-label>Floors</mat-label>
+            <mat-select formControlName="floors" multiple data-auto="block-form-select-floor-mat-select">
+              <mat-select-trigger>
+                {{blockFacilityForm.controls?.floors?.value? blockFacilityForm.controls.floors?.value[0]: ''}}
+                <span *ngIf="blockFacilityForm.controls?.floors?.value?.length > 1" class="additional-selection">
+                  (+{{ blockFacilityForm.controls.floors?.value?.length - 1 }}
+                  {{ blockFacilityForm.controls.floors?.value?.length === 2 ? 'other' : 'others' }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let floor of floors" [value]="floor.value">
+                {{floor.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="blockFacilityForm.controls.floors.errors?.required">Please select floor.</mat-error>
+          </mat-form-field>
+
+          <!-- reason for blocking facility -->
+          <mat-form-field class="reason-field" appearance="outline" data-auto="block-form-reason-field">
+            <mat-label> Enter Reason </mat-label>
+            <input matInput formControlName="reason" #cancelReasonInput placeholder="Reason for blocking " maxlength="150" 
+            minlength="10" required/>
+            <div class="min-length" style="color:grey; text-align:end;">{{ cancelReasonInput.value?.length || 0 }}/150</div>
+            <div class="min-length" *ngIf="cancelReasonInput.value?.length<10 && cancelReasonInput.value?.length!==0">
+              * Min 10 chars
+            </div>
+            <mat-error *ngIf="blockFacilityForm.controls.reason.errors?.required">
+              Please provide a reason.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- block form submit button -->
+          <div *ngIf="!data else editButton" class="button-container" data-auto="block-form-button-container">
+            <button type="button" class="reset-button" mat-stroked-button data-auto="block-form-reset-button" (click)="onResetForm()">
+              Reset
+            </button>
+            <button color="primary" class="block-button" (click)="onFormSubmit()" mat-raised-button data-auto="block-form-block-button"
+              [disabled]="blockFacilityForm.invalid || loading">
+              Block
+            </button>
+          </div>
+          <ng-template #editButton>
+            <div class="button-container" data-auto="block-form-button-container">
+              <button class="reset-button" mat-dialog-close mat-stroked-button data-auto="block-form-cancel-button">
+                Cancel
+              </button>
+              <button color="primary" class="block-button" mat-raised-button data-auto="block-form-save-button" (click)="onEditForm()"
+                [disabled]="blockFacilityForm.invalid || loading">
+                Save
+              </button>
+            </div>
+          </ng-template>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<mat-card>
+  <app-table
+    [tablePropertiesToColumn]="masterTableFields"
+    [tableData]="blockingHistoryList"
+    [columnToBeDisplayed]="displayedColumns"
+    [tableLoader]="tableLoader"
+    [filters]="true"
+    [filterOptions]="filterOptions"
+    (buttonClickedEvent)="onButtonClicked($event)"
+    [paginationModel]="paginationModel"
+    (paginationChanges)="onPaginationChange($event)"
+    (dateSelectionChange)="onDateFilterChange($event)"
+    (resetFilterEvent)="onResetClick($event)"
+  ></app-table>
+</mat-card>

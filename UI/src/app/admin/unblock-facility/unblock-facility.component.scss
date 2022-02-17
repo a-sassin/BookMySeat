@@ -1,0 +1,107 @@
+.container {
+    .date-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .arrow {
+            padding: 5px;
+            cursor: pointer;
+            :hover {
+                background-color: #d9d9d9;
+                border-radius: 3px;
+            }
+        }
+        mat-form-field {
+            width: 73px;
+            input {
+                color: blue;
+                cursor: pointer;
+                font-size: 17px;
+            }
+            ::ng-deep .mat-form-field-underline {
+                display: none;
+            }
+        }
+        #right {
+            transform: rotate(180deg);
+        }
+    }
+    .spinner-position {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .calender {
+        background-color: #fff;
+        width: 90%;
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-auto-rows: 100px;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-weight: 500;
+            font-size: 20px;
+            border-bottom: 1px solid #d9d9d9;
+        }
+        .loop {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            .date {
+                margin-top: 10px;
+                display: flex;
+            }
+            .floor-divisions {
+                width: 90%;
+                display: flex;
+                flex-direction: column;
+                .aag,
+                .adisa,
+                .vantage,
+                .indefinte-blocked-flooor,
+                .disable-facility {
+                    height: 20px;
+                    color: #ffffff;
+                    text-align: center;
+                    margin-top: 3px;
+                    @media screen and (max-width: 500px) {
+                        font-size: 0.5rem;
+                    }
+                }
+                .aag,
+                .adisa,
+                .vantage,
+                .indefinte-blocked-flooor {
+                    &:hover {
+                        transform: scaleX(1.05);
+                        cursor: pointer;
+                    }
+                }
+                .aag {
+                    background-color: #002a5a;
+                }
+                .adisa {
+                    background-color: #094992;
+                }
+                .vantage {
+                    background-color: #1465c2;
+                }
+                .indefinte-blocked-flooor {
+                    background-color: #ee1212;
+                }
+                .disable-facility {
+                    background-color: #d9d9d9;
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+}

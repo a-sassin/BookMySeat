@@ -1,0 +1,47 @@
+$primary-color: #0b64ca;
+
+.container {
+    position: relative;
+    min-height: 70vh;
+    .floors {
+        display: flex;
+        width: '100%';
+        height: 63vh;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 25px 0;
+
+        .floor-container {
+            box-sizing: border-box;
+            width: 220px;
+            height: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0, 21, 64, 0.14),
+                0 10px 20px rgba(0, 21, 64, 0.05);
+            &:hover {
+                border: 1px solid $primary-color;
+            }
+            .info {
+                font-weight: 700;
+                font-size: 15px;
+            }
+        }
+    }
+
+    mat-form-field {
+        width: 150px;
+        margin: 10px 0 0 10px;
+    }
+    .no-data {
+        height: 63vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

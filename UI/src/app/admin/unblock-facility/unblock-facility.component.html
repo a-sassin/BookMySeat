@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="date-controls">
+    <div class="arrow" (click)="changeMonth('previous')" *ngIf="leftArrowDisable">
+      <img src="../../../assets/left.png" alt="left" />
+    </div>
+    <mat-form-field>
+      <input readonly matInput [matDatepicker]="dp" [min]="minDate" [max]="maxDate" [formControl]="date"
+        (click)="dp.open()" />
+      <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+        (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+    <div class="arrow" (click)="changeMonth('next')" *ngIf="rightArrowDisable">
+      <img id="right" src="../../../assets/left.png" alt="left" />
+    </div>
+  </div>
+  <div class="spinner-position">
+    <mat-spinner *ngIf="tableLoader"></mat-spinner>
+  </div>
+  <div class="calender" *ngIf="!tableLoader">
+    <section *ngFor="let day of days">
+      {{ day | uppercase }}
+    </section>
+    <div class="loop" *ngFor="let value of calenderView"
+      [ngStyle]="{ 'grid-column': value.date === 1 ? getIndex(value.day) + 1 + ' / span 1' : '' }">
+      <div class="date">{{ value.date }}</div>
+      <div class="floor-divisions">
+        <div (click)="onDateClick(value.date, 'AAG')" *ngIf="cellBlockedDates(value.date, 'AAG', !dateRangeToggle)"
+          [ngClass]="collapseDate(value.date, 'AAG')">
+          AAG
+        </div>
+        <div (click)="onDateClick(value.date, 'AI')" *ngIf="cellBlockedDates(value.date, 'AI', !dateRangeToggle)"
+          [ngClass]="collapseDate(value.date, 'AI')">
+          ADISA
+        </div>
+        <div (click)="onDateClick(value.date, 'V9')" *ngIf="cellBlockedDates(value.date, 'V9', !dateRangeToggle)"
+          [ngClass]="collapseDate(value.date, 'V9')">
+          VANTAGE
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

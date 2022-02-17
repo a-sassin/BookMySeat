@@ -1,0 +1,14 @@
+<div class="block-page-container" data-auto="block-page-container">
+  <mat-tab-group [selectedIndex]="selectedIndex" data-auto="block-page-tab-group">
+    <mat-tab label="Block Facility" data-auto="block-page-block-facility-tab">
+      <mat-card>
+        <app-block-facility></app-block-facility>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Blocked History" data-auto="block-page-blocked-history-tab">
+      <ng-template matTabContent>
+        <app-block-history></app-block-history>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

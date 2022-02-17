@@ -1,0 +1,30 @@
+<div class="report-container">
+  <div class="actions">
+    <div class="label-container">
+      <div id="back" routerLink="/admin/reports"><img src="assets/back.svg" alt="back" /></div>
+    </div>
+    <div class="button-container">
+      <!-- <button mat-stroked-button color="primary">Map View</button>
+      <button mat-stroked-button color="primary">Print</button> -->
+      <button class="download" mat-raised-button color="primary" (click)="ondownloadClick()" [disabled]="buttonLoader">
+        <span *ngIf="!buttonLoader">Download</span>
+        <div class="spinner" *ngIf="buttonLoader">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="date">
+    Approved Visit Details for <b>{{ getFormattedDate() }}</b>
+  </div>
+  <div class="report">
+    <app-table 
+    [tablePropertiesToColumn]="masterTableFields" 
+    [tableData]="visitBookingList"
+      [columnToBeDisplayed]="displayedColumns" 
+      [tableLoader]="tableLoader" 
+      [showPagination]="false"
+      >
+    </app-table>
+  </div>
+</div>

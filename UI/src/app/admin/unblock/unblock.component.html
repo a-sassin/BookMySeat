@@ -1,0 +1,75 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+    <div class="spinner-position">
+      <mat-spinner *ngIf="loading"></mat-spinner>
+    </div>
+    <div class="block-title">
+      <span class="title">Blocked Facilities</span>
+    </div>
+    <mat-form-field appearance="fill" class="selectDate">
+      <mat-label>Select Date</mat-label>
+      <mat-select disableRipple [(value)]="value">
+        <div class="floor-options">
+          <mat-option
+            *ngFor="let dateRange of blockedData"
+            value="test"
+            (click)="onDateChange(dateRange)"
+          >
+            {{ dateRange.fromDate | date }} to
+            {{
+              dateRange.toDate === 'Indefinite range'
+                ? (dateRange.toDate | titlecase)
+                : (dateRange.toDate | date)
+            }}
+          </mat-option>
+        </div>
+      </mat-select>
+    </mat-form-field>
+    <div class="build-name" *ngIf="isDate">
+      <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          [expanded]="true"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ isFloorBlocked.data.facilityId }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div
+            class="expansion-panel"
+            *ngFor="let floor of isFloorBlocked.data.floors; let i = index"
+          >
+            {{ floor }} Floor
+            <mat-slide-toggle
+              [checked]="isFloorBlocked.data.floors[i]"
+              (click)="onToggleClick(isFloorBlocked.data.floors[i])"
+              color="primary"
+            >
+            </mat-slide-toggle>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="req-info" *ngIf="!isButton">
+      * This action will be applied to all dates present in this blocking request.
+    </div>
+    <div class="buttons" *ngIf="isDate">
+      <button mat-stroked-button type="button" class="close-button" (click)="closeSidenav()">
+        Close
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="update-button"
+        (click)="unblockFacility(reload)"
+        [disabled]="isButton || loading"
+      >
+        Unblock
+      </button>
+    </div>
+  </mat-drawer>
+  <div class="example-sidenav-content">
+    <app-unblock-facility (newItemEvent)="getDate($event)" #reload></app-unblock-facility>
+  </div>
+</mat-drawer-container>

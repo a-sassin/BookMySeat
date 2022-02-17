@@ -1,0 +1,94 @@
+<div class="row" data-auto="booking-component-container">
+  <div class="column" data-auto="booking-component-form-container">
+    <form [formGroup]="bookingForm" (submit)="submit()" data-auto="booking-component-form">
+      <mat-form-field data-auto="booking-component-form-date-field" class="date-field">
+        <mat-label>CHOOSE A DATE</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateRange" [min]="todaysDate" [max]="maxDate" readonly
+          data-auto="booking-component-form-date-input" />
+        <mat-datepicker-toggle matSuffix [for]="picker" class="date-icon"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>
+          <span *ngIf="bookingForm.controls.dateRange.errors?.required">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-label class="label" *ngIf="bookingForm?.controls['blockedSeats']?.value.length > 0">Blocked seat no</mat-label>
+
+      <div class="chip-list" *ngIf="bookingForm?.controls['blockedSeats']?.value.length > 0">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let seatDetails of bookingForm.get('blockedSeats')?.controls" [removable]="removable"
+            (removed)="onRemoveSelectedSeat(seatDetails)">
+            {{ seatDetails?.value?.seatNo }}
+            <mat-icon class="remove-icon" matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <mat-label class="label" *ngIf="bookingForm?.controls['unblockedSeats']?.value.length > 0">Unblocked seat no</mat-label>
+
+      <div class="chip-list" *ngIf="bookingForm?.controls['unblockedSeats']?.value.length > 0">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let seatDetails of bookingForm.get('unblockedSeats')?.controls" [removable]="removable"
+            (removed)="onRemoveSelectedSeat(seatDetails)">
+            {{ seatDetails?.value?.seatNo }}
+            <mat-icon class="remove-icon" matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
+       <mat-error>
+        <span *ngIf="submitted && (bookingForm.controls?.blockedSeats?.value.length === 0 && bookingForm.controls?.unblockedSeats?.value.length === 0)">Please select the seat.</span>
+      </mat-error>
+
+      <button *ngIf="!isLoading" mat-raised-button color="primary" type="submit"
+        [disabled]="!isPracticeAvailabe() || !floorDataFound" data-auto="booking-component-form-submit-button">
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <div class="column-img" data-auto="booking-component-floor-image-div">
+    <mat-spinner class="loader" *ngIf="isLoading" data-auto="booking-component-image-loader-spinner"></mat-spinner>
+    <ng-container *ngIf="!isLoading && (coordinates?.length > 0)">
+      <div class="btn-container" data-auto="booking-component-button-container">
+        <button [ngClass]="{
+            'selected-floor': selectedFloor?.floorNo === floor?.floorNo,
+            'no-pointer': floorDetails?.length < 2
+          }" *ngFor="let floor of floorDetails; let i = index" (click)="onFloorSelection(i)"
+          attr.data-auto="booking-component-floor-selection-button-{{ i }}">
+          {{ floor.displayValue }}
+        </button>
+      </div>
+      <div class="image-container" data-auto="booking-component-image-container" *ngIf="floorDataFound">
+        <img class="responsive" [src]="selectedFloor?.imagePath" alt="floorImage" usemap="#planetmap" #myDivScreen
+          id="img" data-auto="booking-component-floorImage" />
+
+        <map id="planetmap" name="planetmap" data-auto="booking-component-image-map">
+          <area *ngFor="let coordi of coordinates" shape="{{coordi.seatNo==='8F20' || coordi.seatNo==='8F21'?'poly':'rect'}}" coords="{{ coordi.coordinates }}"
+            (click)="onSeatSelect(coordi)" href="#" alt="{{ coordi.seatId }}" [class]="coordi.status"
+            data-auto="booking-component-image-coordinates-area" />
+        </map>
+        <div class="floor-info" data-auto="booking-component-floor-info-div">
+          <span class="floor-info-data"><span id="orange"></span>Seats to be blocked ({{
+          bookingForm.get('blockedSeats')?.controls.length }}) </span>
+          <span class="floor-info-data"> <span id="green"></span>Seats to be unblocked ({{
+          bookingForm.get('unblockedSeats')?.controls.length }})</span>
+        </div>
+      </div>
+    </ng-container>
+    <div class="not-found" *ngIf="!floorDataFound || !isPracticeAvailabe()">
+      <div class="not-found-content">
+        <div class="emoji">
+          <img src="../../assets/sad.png" width="100%" height="100%" alt="floor-data-not-found" />
+        </div>
+        <div class="block-notice">
+          <h4>Error</h4>
+          <p>Sorry, floor data not found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isBooking" class="loading-spinner" data-auto="booking-compoent-onSubmit-spinner">
+    <mat-spinner class="loader" data-auto="booking-component-onSubmit-spinner"></mat-spinner>
+  </div>
+</div>

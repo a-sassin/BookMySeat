@@ -1,0 +1,70 @@
+.example-container {
+    height: 92vh;
+    width: auto;
+}
+
+.example-sidenav-content {
+    width: auto;
+    height: 100%;
+}
+
+.example-sidenav {
+    padding: 20px;
+    width: 350px;
+    .block-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .title {
+            font-size: 20px;
+            color: #242424;
+        }
+    }
+    .spinner-position {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+    }
+    .build-name {
+        margin-top: 20px;
+    }
+    .expansion-panel {
+        display: flex;
+        justify-content: space-between;
+        flex-basis: 20%;
+        margin-top: 20px;
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 20%;
+        .close-button,
+        .update-button {
+            width: 40%;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 8px;
+            text-align: center;
+            padding: 2px;
+        }
+        .close-button {
+            color: #0b64ca;
+            background-color: white;
+            border: 1px solid #0b64ca;
+        }
+    }
+}
+.req-info {
+    margin-top: 27px;
+    color: red;
+}
+.selectDate {
+    margin-top: 30px;
+    margin-left: 18%;
+}
+.floor-options {
+    max-height: 20vh;
+    overflow-y: auto;
+}

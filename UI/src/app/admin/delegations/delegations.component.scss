@@ -1,0 +1,78 @@
+.loader {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin: -50px 0px 0px -50px;
+    z-index: 1;
+}
+.table-container {
+    padding: auto;
+    margin: 0 25px 0 25px;
+    .card {
+        margin: 1% auto;
+        max-height: 300px;
+        .container {
+            font-family: 'Poppins', sans-serif;
+            max-width: 100%;
+            .form-field {
+                width: 30%;
+                display: block;
+                height: 60px;
+                margin: auto;
+                margin-bottom: 15px;
+                mat-label {
+                    font-size: 14px;
+                    opacity: 1;
+                }
+                .icon {
+                    margin-right: 6px;
+                    color: gray;
+                }
+                .loading-status {
+                    float: right;
+                }
+            }
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 10px;
+                margin-bottom: 5px;
+                button {
+                    width: 10%;
+                    font-size: 15px;
+                    border-radius: 5px;
+                    padding: 3px;
+                    justify-content: space-evenly;
+                    margin-left: 1%;
+                    margin-right: 1%;
+                }
+            }
+        }
+    }
+    .head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .heading {
+            font-size: 18px;
+            font-weight: 700px;
+        }
+    }
+    .divider {
+        margin-left: 20px;
+        margin-right: 20px;
+        font-weight: bolder;
+    }
+    .table-card {
+        min-height: 250px;
+        margin: 1% auto;
+        .table-card-container {
+            font-family: 'Poppins', sans-serif;
+            max-width: 100%;
+        }
+    }
+    ::ng-deep.mat-paginator-container {
+        display: none;
+    }
+}

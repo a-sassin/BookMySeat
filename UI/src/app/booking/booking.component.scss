@@ -1,0 +1,315 @@
+$primary-color: #0b64ca;
+$label-color: #898a8b;
+$color-green: #00ff00;
+$color-white: #fff;
+$color-black: #000;
+$color-red: red;
+$col-img-bg: #b1b1b1;
+$grey-color: grey;
+$selected-btn-color: #0b64ca;
+$tooltip-bg: #fff600;
+$notice-bg: #bd5c5c24;
+$notice-border: #fb0e0e;
+$date-range-color: #ff0000;
+
+@mixin filled-circle($bgcolor) {
+    width: 20px;
+    height: 13px;
+    background-color: $bgcolor;
+    border-radius: 4px;
+    display: inline-block;
+    box-shadow: 1px 2px #00000029;
+    margin-top: 0.5%;
+    @media screen and (max-width: 600px) {
+        width: 10px;
+        height: 8px;
+    }
+}
+
+.active {
+    fill: transparent;
+    stroke: gray; /* Replace with none if you like */
+    stroke-width: 4;
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    height: 100%;
+    @media screen and (max-width: 600px) {
+        display: flex;
+        flex-direction: column;
+    }
+    .column {
+        margin-left: 8px;
+        margin-right: 8px;
+        width: 20%;
+        padding: 10px;
+        background: $color-white;
+        @media screen and (max-width: 600px) {
+            flex-direction: row;
+            width: auto;
+        }
+        .mat-form-field {
+            width: 100%;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            @media screen and (max-width: 600px) {
+                margin: auto;
+            }
+            .date-field {
+                margin-top: 8px;
+                .date-icon {
+                    font-size: 20px;
+                }
+            }
+            .label {
+                margin-top: 8px;
+                margin-right: auto;
+            }
+            .min-length {
+                color: red;
+                line-height: 0em;
+                transform: translateY(18px);
+                font-size: 12px;
+            }
+            mat-error {
+                font-size: 12px;
+            }
+            .chip-list {
+                margin-top: 10px;
+                min-height: 60px;
+                max-height: 100px;
+                width: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            mat-chip-list {
+                align-self: flex-start;
+                mat-chip {
+                    color: $color-white;
+                    background-color: $color-black;
+                    width: 70px;
+                    font-size: 13px;
+                    padding-right: 5px;
+                }
+                .remove-icon {
+                    color: #ffffff;
+                }
+            }
+            .members {
+                margin-top: 15px;
+                width: 100%;
+            }
+            .members-hide {
+                display: none;
+            }
+
+            ::ng-deep {
+                .mat-form-field-infix {
+                    color: $primary-color;
+                }
+            }
+            mat-label {
+                color: $label-color;
+            }
+
+            .member-error {
+                text-align: center;
+            }
+
+            .radio-buttons {
+                padding: 5px 0 15px 0;
+                .radio {
+                    margin-right: 15px;
+                }
+                .vaccination-error {
+                    text-align: center;
+                    font-size: 13px;
+                    margin-top: 10px;
+                }
+            }
+
+            button {
+                margin-top: 1%;
+                border-radius: 5px;
+                padding: 0 10%;
+            }
+        }
+    }
+    .column-img {
+        background-color: $col-img-bg;
+        width: 100%;
+        min-height: 92vh;
+        height: 100%;
+        .btn-container {
+            padding: 20px 0 10px 10px;
+            margin-left: 9%;
+            @media screen and (max-width: 600px) {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                padding: 20px 0 10px 10px;
+                margin-left: 25%;
+            }
+            button {
+                border: 1px solid $grey-color;
+                margin-right: 10px;
+                padding: 8px;
+                border-radius: 5px;
+                background-color: $color-white;
+                color: $grey-color;
+                outline: none;
+                cursor: pointer;
+                @media screen and (max-width: 600px) {
+                    padding: 5px;
+                }
+            }
+            button:not(.selected-floor):not(.no-pointer):hover {
+                transform: scale(1.05);
+                color: $selected-btn-color;
+                border: 1px solid $selected-btn-color;
+            }
+            .selected-floor {
+                color: $selected-btn-color;
+                box-shadow: 1px 3px 5px 2px rgba(26, 26, 255, 0.2);
+                border: 1px solid $selected-btn-color;
+                pointer-events: none;
+            }
+            .no-pointer {
+                cursor: auto;
+            }
+            .not-click {
+                pointer-events: none;
+            }
+        }
+        .blocked-image-container {
+            width: 80%;
+            margin: 3% 10% 3% 10%;
+            .responsive {
+                width: 100%;
+            }
+        }
+        .image-container {
+            width: 80%;
+            margin: 1% 10% 0 10%;
+            .responsive {
+                width: 100%;
+            }
+            .floor-info {
+                display: flex;
+                justify-content: space-evenly;
+                margin-top: 2.2%;
+                padding-bottom: 17px;
+                background: #ffffff 0% 0% no-repeat padding-box;
+                height: min-content;
+                .floor-info-data {
+                    font-size: 1rem;
+                    margin-top: 0.5%;
+                    @media screen and (max-width: 600px) {
+                        font-size: 0.7rem;
+                    }
+                    #green {
+                        @include filled-circle($color-green);
+                    }
+                    #white {
+                        @include filled-circle($color-white);
+                        border: 1px solid black;
+                    }
+                    #red {
+                        @include filled-circle($color-red);
+                    }
+                }
+            }
+        }
+        .not-found {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .not-found-content {
+                position: relative;
+                margin: 14% 0 14% 0;
+                .emoji {
+                    position: absolute;
+                    top: -7px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid $notice-border;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+    .block-notice {
+        background-color: $notice-bg;
+        padding: 10px;
+        margin-top: 20px;
+        text-align: center;
+        border-radius: 5px;
+        border: 1px solid $notice-border;
+        h4 {
+            color: $date-range-color;
+            margin-top: 20px;
+        }
+        p {
+            margin: 12px;
+        }
+    }
+}
+.loader {
+    display: flex;
+    position: absolute;
+    top: 40%;
+    left: 52%;
+    z-index: 1;
+    @media screen and (max-width: 600px) {
+        left: 40%;
+    }
+}
+
+::ng-deep.tooltip {
+    background: #ffdf0d;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.blocked,
+.booked,
+.unavailable,
+.reserved {
+    cursor: auto;
+}
+
+.seat-no {
+    float: right;
+}
+
+.material-icons-outlined {
+    margin-right: 10px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.loading-spinner {
+    display: flex;
+    background: rgba(0, 0, 0, 0.253) no-repeat 0 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.sticky-searchbar {
+    padding: 0 8px;
+    overflow-x: hidden;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    background-color: white;
+}

@@ -1,0 +1,32 @@
+$primary-color: #0b64ca;
+
+.report-page-container {
+    padding: 10px;
+    margin: 0 25px 0 25px;
+    position: relative;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+}
+
+.floor-container {
+    box-sizing: border-box;
+    width: 220px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 21, 64, 0.14),
+        0 10px 20px rgba(104, 107, 112, 0.05);
+    &:hover {
+        border: 1px solid $primary-color;
+    }
+}

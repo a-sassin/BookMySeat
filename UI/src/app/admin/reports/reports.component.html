@@ -1,0 +1,30 @@
+<mat-spinner class="loader" *ngIf="isLoading"></mat-spinner>
+
+<div class="report-page-container" data-auto="block-page-container">
+  <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)"
+    data-auto="block-page-tab-group">
+    <mat-tab label="AAG">
+      <app-floor-cards #aggFloorCard [floorData]="facilityWiseData['AAG']" [currentDate]="currentDate"
+        [currentFacilityId]="currentFacilityId" (summaryEvent)="onDateChange($event)">
+        <div class="floor-container">
+          <div>Visit Bookings</div>
+          <button mat-button color="primary" (click)="onViewDetails()" [disabled]="!visitData">
+            View Details
+          </button>
+        </div>
+      </app-floor-cards>
+    </mat-tab>
+    <!-- <mat-tab label="ADISA">
+      <app-floor-cards #adisaFloorCard
+        [floorData]="facilityWiseData['ADISA']"
+        [currentFacilityId]="currentFacilityId"
+        (summaryEvent)="onDateChange($event)"
+      ></app-floor-cards>
+    </mat-tab> -->
+    <mat-tab label="VANTAGE" *ngIf="isUserSuperAdmin || showAllCard || !showVisitReport">
+      <app-floor-cards #vantageFloorCard (summaryEvent)="onDateChange($event)" [floorData]="facilityWiseData['VANTAGE']"
+        [currentDate]="currentDate" [currentFacilityId]="currentFacilityId">
+      </app-floor-cards>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,180 @@
+<div class="row" data-auto="booking-component-container">
+  <div class="column" data-auto="booking-component-form-container">
+    <form [formGroup]="bookingForm" (submit)="submit()" data-auto="booking-component-form">
+      <mat-form-field data-auto="booking-component-form-date-field" class="date-field">
+        <mat-label>CHOOSE A DATE</mat-label>
+          <mat-date-range-input formGroupName="dateRange" [rangePicker]="picker" [min]="todaysDate" [max]="maxDate">
+            <input matStartDate formControlName="start" readonly />
+            <input matEndDate formControlName="end" readonly />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker" class="date-icon"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error>
+          <span *ngIf="bookingForm.get('dateRange.start').errors || bookingForm.get('dateRange.end').errors">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field example-full-width" *ngIf="!isBlocked" data-auto="booking-component-form-reason-field">
+        <mat-label> REASON FOR BOOKING </mat-label>
+        <input matInput formControlName="booking" maxlength="50" #bookingReasonInput minlength="10"
+          data-auto="booking-component-form-reason-input" />
+        <div class="min-length" style="color:grey; text-align:end;">{{ bookingReasonInput.value?.length || 0 }}/50</div>
+        <div class="min-length"
+          *ngIf="bookingReasonInput.value?.length<10 && bookingReasonInput.value?.length!==0 && !bookingForm.get('booking').hasError('whitespace')">
+          * Min 10 chars
+        </div>
+        <mat-error *ngIf="bookingForm.controls?.booking?.errors?.required">This field is mandatory</mat-error>
+        <mat-error *ngIf="bookingForm.get('booking').hasError('whitespace')">whitespaces are not allowed</mat-error>
+      </mat-form-field>
+      <mat-label class="label" *ngIf="bookingForm?.controls['seats']?.value.length > 0">SEAT NO</mat-label>
+      <mat-error>
+        <span *ngIf="submitted && bookingForm.controls?.seats?.value.length === 0">Please select the seat.</span>
+      </mat-error>
+      <div class="chip-list">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let seatDetails of bookingForm.get('seats')?.controls" [removable]="removable"
+            (removed)="onRemoveSelectedSeat(seatDetails)">
+            {{ seatDetails?.value?.seatNo }}
+            <mat-icon class="remove-icon" matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <div [ngClass]="
+          bookingForm?.controls['seats']?.value.length > 1 ||
+          (isManager() && bookingForm?.controls['seats']?.value.length >= 1)
+            ? 'members'
+            : 'members-hide'
+        ">
+        <mat-form-field appearance="fill" *ngIf="!(this.superAdmin || this.isFacilityAdmin)">
+          <mat-icon matPrefix class="material-icons-outlined">person_add</mat-icon>
+          <mat-label>ADD TEAM MEMBERS</mat-label>
+          <mat-select formControlName="subordinates" multiple #subordinatesSelectionBox>
+            <mat-option (onSelectionChange)="onSubordinateSelection($event)"
+              *ngFor="let subordinate of subordinateSeatMapping" [value]="subordinate"
+              [disabled]="isSeatAlreadySelected(subordinate.empId)">
+              {{ subordinate.name }} <b *ngIf="subordinate.self">(Self)</b>
+              <b class="seat-no"> {{ getSeatNoByEmpId(subordinate.empId) }} </b>
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="bookingForm.controls?.subordinates?.errors?.required">Please assign seats.</span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Auto complete and multiple selection -->
+        <mat-form-field appearance="fill" *ngIf="this.superAdmin || this.isFacilityAdmin">
+          <mat-icon matPrefix class="material-icons-outlined">person_add</mat-icon>
+          <mat-label>ADD TEAM MEMBERS</mat-label>
+          <mat-select (openedChange)="openedChange($event)" [formControl]="selectFormControl" multiple #employeesSelectionBox>
+            <mat-select-trigger>
+              {{selectFormControl?.value ? selectFormControl?.value[0]?.name : ''}}
+              <span *ngIf="selectFormControl.value?.length > 1" class="additional-selection">
+                (+{{selectFormControl.value.length - 1}} {{selectFormControl.value?.length === 2 ? 'other' : 'others'}})
+              </span>
+            </mat-select-trigger>
+          <div class="select-container">
+            <div class="sticky-searchbar">
+              <mat-form-field style="width:100%;">
+                <mat-label style="font-size: 18px;">Search</mat-label>
+                <input style="padding: 5px;" #search autocomplete="off" matInput [formControl]="searchTextboxControl">
+                <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+                  <mat-icon >close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
+              <div>No results found!</div>
+            </mat-optgroup>
+              <mat-option (onSelectionChange)="onSubordinateSelection($event)" *ngFor="let option of filteredOptions | async" [value]="option"
+              [disabled]="isSeatAlreadySelected(option.empId)">
+                {{option.name}} <b *ngIf="option.self">(Self)</b>
+                <b class="seat-no"> {{ getSeatNoByEmpId(option.empId) }} </b>
+              </mat-option>
+            </div>
+        </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-error class="member-error">
+        <span *ngIf="submitted && bookingForm?.controls['seats']?.value.length>=1 && hasMemberAllocationError()">Please
+          assign seats.</span>
+      </mat-error>
+
+      <div class="block-notice" *ngIf="isBlocked && !isLoading  && floorDataFound">
+        <p>Sorry, {{selectedFloor.displayValue}} is temporarily unavailable</p>
+        <h4>{{ blockingSeatDateFormat(bookingForm.get(['dateRange', 'start']).value) }}</h4>
+      </div>
+
+      <div class="radio-buttons" *ngIf="bookingForm?.controls['seats']?.value.length > 0">
+        <mat-radio-group formControlName="vaccination">
+          <mat-radio-button value="true" class="radio" color="primary">Vaccinated
+          </mat-radio-button>
+          <mat-radio-button value="false" color="primary">Not
+            Vaccinated
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-error class="vaccination-error">
+          <span *ngIf="submitted && bookingForm.controls?.vaccination?.errors?.required">
+            * Please select vaccination status</span>
+        </mat-error>
+      </div>
+
+
+      <button *ngIf="!isBlocked && !isLoading" mat-raised-button color="primary" type="submit"
+        [disabled]="!isPracticeAvailabe() || !floorDataFound" data-auto="booking-component-form-submit-button">
+        Book Now
+      </button>
+    </form>
+  </div>
+
+  <div class="column-img" data-auto="booking-component-floor-image-div">
+    <mat-spinner class="loader" *ngIf="isLoading" data-auto="booking-component-image-loader-spinner"></mat-spinner>
+    <ng-container *ngIf="!isLoading && (coordinates?.length > 0 || isBlocked)">
+      <div class="btn-container" data-auto="booking-component-button-container">
+        <button [ngClass]="{
+            'selected-floor': selectedFloor?.floorNo === floor?.floorNo,
+            'no-pointer': floorDetails?.length < 2,
+            'not-click':bookingForm.get('dateRange').invalid
+          }" *ngFor="let floor of floorDetails; let i = index" (click)="onFloorSelection(i)"
+          attr.data-auto="booking-component-floor-selection-button-{{ i }}">
+          {{ floor.displayValue }}
+        </button>
+      </div>
+      <div class="image-container" data-auto="booking-component-image-container" *ngIf="!isBlocked && floorDataFound">
+        <img class="responsive" [src]="selectedFloor?.imagePath" alt="floorImage" usemap="#planetmap" #myDivScreen
+          id="img" data-auto="booking-component-floorImage" />
+
+        <map id="planetmap" name="planetmap" data-auto="booking-component-image-map">
+          <area *ngFor="let coordi of coordinates" shape="{{coordi.seatNo==='8F20' || coordi.seatNo==='8F21'?'poly':'rect'}}" coords="{{ coordi.coordinates }}"
+            (click)="onSeatSelect(coordi)" href="#" alt="{{ coordi.seatId }}" [class]="coordi.status"
+            data-auto="booking-component-image-coordinates-area" />
+        </map>
+        <div class="floor-info" data-auto="booking-component-floor-info-div">
+          <span class="floor-info-data"><span id="green"></span> Selected Seats ({{
+            bookingForm.get('seats')?.controls.length }})</span>
+          <span class="floor-info-data"> <span id="white"></span> Available ({{ floorInfo.available }})</span>
+          <span class="floor-info-data"> <span id="red"></span> Booked ({{ floorInfo.occupied }})</span>
+        </div>
+      </div>
+      <div class="blocked-image-container" *ngIf="isBlocked && floorDataFound">
+        <img src="../../assets/Floor-blocked.jpg" alt="Floor-under-maintanace" class="responsive">
+      </div>
+    </ng-container>
+    <div class="not-found" *ngIf="!floorDataFound || !isPracticeAvailabe()">
+      <div class="not-found-content">
+        <div class="emoji">
+          <img src="../../assets/sad.png" width="100%" height="100%" alt="floor-data-not-found" />
+        </div>
+        <div class="block-notice">
+          <h4>Error</h4>
+          <p>Sorry, floor data not found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isBooking" class="loading-spinner" data-auto="booking-compoent-onSubmit-spinner">
+    <mat-spinner class="loader" data-auto="booking-component-onSubmit-spinner"></mat-spinner>
+  </div>
+</div>

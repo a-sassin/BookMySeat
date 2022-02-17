@@ -1,0 +1,47 @@
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    .label-container {
+        display: flex;
+        align-items: center;
+        #back {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                background-color: #d9d9d9;
+            }
+        }
+        div {
+            margin-right: 30px;
+            font-weight: 500;
+            font-size: 18px;
+        }
+    }
+    .button-container {
+        display: flex;
+        align-items: center;
+        .download {
+            width: 100px;
+            height: 40px;
+        }
+        button {
+            margin-left: 10px;
+        }
+        .spinner {
+            margin-left: 10px;
+            padding: 5px;
+        }
+    }
+}
+
+.date {
+    text-align: center;
+    background-color: #fff;
+    padding: 15px 0;
+}

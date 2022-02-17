@@ -1,0 +1,82 @@
+<div class="table-container" data-auto="delegated-table-container">
+    <mat-spinner class="loader" *ngIf="isFormSubmit"></mat-spinner>
+    <mat-card class="card">
+        <mat-card-header class="head"><mat-card-title class="heading">Delegation</mat-card-title></mat-card-header>
+        <mat-card-content class="container">
+            <form [formGroup]="selectFormControl">
+                <mat-form-field appearance="outline" class="form-field" data-auto="search-employee-form-field">
+                    <mat-label>Search Employee Name</mat-label>
+                    <mat-icon matPrefix class="icon">person</mat-icon>
+                    <input *ngIf="!isEditForm else editEmpName" matInput type="text" #employeeInput formControlName="searchFormControl" [matAutocomplete]="auto" required [errorStateMatcher]="matcher"/>
+                    <mat-spinner *ngIf="isLoading" matSuffix diameter="18" class="loading-status"> </mat-spinner>
+
+                    <ng-template #editEmpName>
+                        <input matInput type="text" #employeeInput formControlName="searchFormControl" [matAutocomplete]="auto" required readonly [errorStateMatcher]="matcher" />
+                    </ng-template>
+
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selected($event)">
+                        <mat-option disabled *ngIf="searchRes.length>0">
+                            <div>{{searchRes}}</div>
+                        </mat-option>
+                        <mat-option *ngFor="let employees of filteredEmployees" [value]="employees">
+                            <span>{{ employees.name }} <small>{{ employees.empId }}</small></span>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="selectFormControl?.controls?.searchFormControl?.errors?.required">*Please select one employee</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="outline" data-auto="facility-practice-form-field">
+                    <mat-label>Select Practices</mat-label>
+                    <mat-select formControlName="selectPractice" data-auto="delegate-form-select-practice-mat-select" multiple required focused="false"[errorStateMatcher]="matcher">
+                        <mat-select-trigger>
+                            {{ selectFormControl?.controls?.selectPractice?.value ? selectFormControl?.controls?.selectPractice?.value[0] : '' }}
+                            <span *ngIf="selectFormControl?.controls?.selectPractice?.value?.length > 1">
+                                (+{{ selectFormControl?.controls?.selectPractice?.value?.length - 1 }} {{ selectFormControl?.controls?.selectPractice?.value?.length === 2 ? 'other' : 'others' }})
+                            </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let practice of practiceList" [value]="practice">{{ practice }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="selectFormControl?.controls?.selectPractice?.errors?.required">*Please assign atleast one practice</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="outline" data-auto="assigned-Role-form-field">
+                    <mat-label>Select Role</mat-label>
+                    <mat-select formControlName="selectRole" data-auto="delegate-form-assigned-Role-mat-select" multiple required focused="false"[errorStateMatcher]="matcher">
+                        <mat-select-trigger>
+                            {{ selectFormControl?.controls?.selectRole?.value ? selectFormControl?.controls?.selectRole?.value[0] : '' }}
+                            <span *ngIf="selectFormControl?.controls?.selectRole?.value?.length > 1">
+                                (+{{ selectFormControl?.controls?.selectRole?.value?.length - 1 }} {{ selectFormControl?.controls?.selectRole?.value?.length === 2 ? 'other' : 'others' }})
+                            </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let role of roleList" [value]="role">{{ role }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="selectFormControl?.controls?.selectRole?.errors?.required">*Please assign atleast one Role</mat-error>
+                </mat-form-field>
+
+                <div class="button-container">
+                    <button color="primary" mat-stroked-button data-auto="block-form-reset-button" (click)="resetForm()">
+                        Reset
+                    </button>
+                    <button color="primary" (click)="onFormSubmit()" mat-raised-button data-auto="block-form-block-button" [disabled]="checkDisabled()">
+                       Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="table-card">
+        <mat-card-header class="head"><mat-card-title class="heading">Delegated Admins</mat-card-title></mat-card-header>
+        <hr class="divider" />
+        <mat-card-content class="table-card-container">
+        <app-table
+            [tablePropertiesToColumn]="masterTableFields"
+            [tableData]="allFacilityAdmins"
+            [columnToBeDisplayed]="displayedColumns"
+            [tableLoader]="tableLoader"
+            [filters]="false"
+            (buttonClickedEvent)="onButtonClicked($event)"
+            (rowClickedEvent)="onRowClickedEvent($event)"
+        ></app-table>
+        </mat-card-content>
+    </mat-card>
+</div>
