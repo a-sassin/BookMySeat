@@ -1,0 +1,91 @@
+{
+  "name": "book-my-seat",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --stats-json --source-map=false",
+    "build-prod": "ng build --prod --stats-json --source-map=false",
+    "build-release": "ng build --configuration=release --stats-json --source-map=false",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "prettier": "prettier --write \"src/**/*.*\"",
+    "lint-fix": "ng lint --fix=true",
+    "fmt-fix": "prettier --write \"src/**/*.*\" "
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~10.1.2",
+    "@angular/cdk": "^10.2.7",
+    "@angular/common": "~10.1.2",
+    "@angular/compiler": "~10.1.2",
+    "@angular/core": "~10.1.2",
+    "@angular/forms": "~10.1.2",
+    "@angular/localize": "~10.1.2",
+    "@angular/material": "^10.2.7",
+    "@angular/material-moment-adapter": "^11.2.1",
+    "@angular/platform-browser": "~10.1.2",
+    "@angular/platform-browser-dynamic": "~10.1.2",
+    "@angular/router": "~10.1.2",
+    "@ng-bootstrap/ng-bootstrap": "^8.0.4",
+    "@types/jquery": "^3.5.5",
+    "angular-font-awesome": "^3.1.2",
+    "bootstrap": "^4.5.0",
+    "crypto-js": "^4.0.0",
+    "fmt": "^2.0.0",
+    "font-awesome": "^4.7.0",
+    "jquery-imagemapster": "^1.2.10",
+    "moment": "^2.29.1",
+    "ng-maphilight": "^1.0.1",
+    "rxjs": "~6.6.0",
+    "socket.io-client": "^3.1.2",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.10.2"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1001.2",
+    "@angular/cli": "~10.1.2",
+    "@angular/compiler-cli": "~10.1.2",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^6.0.0",
+    "husky": "^3.0.9",
+    "jasmine-core": "~3.6.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "karma": "~5.0.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~3.0.2",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "^1.5.0",
+    "prettier": "^1.18.2",
+    "protractor": "~7.0.0",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "~4.0.2"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "printWidth": 80,
+    "endOfLine": "lf"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run fmt-fix ",
+      "pre-push": "ng build --aot true"
+    }
+  }
+}

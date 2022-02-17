@@ -1,0 +1,29 @@
+pipeline {
+  agent any
+  environment {
+        HOME = '.'
+  }
+  stages {
+    stage('Building Image') {
+      steps {
+        sh 'docker build -t bms-ui-release:latest . --build-arg BUILD=build-release'
+      }
+    }
+    stage('Removing Old Container') {
+      steps {
+        sh 'docker rm -f bms-ui-release-container | echo true'
+      }
+    }    
+    stage('Removing Cache and Dangled Containers') {
+      steps {
+        sh 'docker system prune --filter=label!=stage=builder -f'
+        sh 'docker rmi $(docker images -f label=stage=builder -f before=$(docker images -f label=stage=builder --format "{{.ID}}"| sed -n \'1p\' | awk \'{print $1;}\'))| echo true'
+        }
+    }
+    stage('Running Container on Port 4444') {
+      steps {
+        sh 'docker run -d -p 4444:80 --name bms-ui-release-container bms-ui-release'
+      }
+    }    
+    }
+  }
