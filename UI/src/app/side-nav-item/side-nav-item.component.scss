@@ -1,0 +1,35 @@
+$primary-color: #0b64ca;
+
+.nav-icon--left-align {
+    float: right;
+    width: 36px;
+    height: 26px;
+    padding: 0 5px;
+    margin-left: 15px;
+}
+
+.nav-icon--right-align {
+    margin-left: 10px;
+    float: right;
+    width: 18px;
+    height: 18px;
+}
+
+.nav-text {
+    padding: 0 8px;
+    min-width: 90px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+}
+
+.list-items {
+    color: black;
+    opacity: 0.7;
+}
+
+.list-items:hover {
+    box-sizing: border-box;
+    color: $primary-color;
+    border-radius: 4px;
+    background-color: white;
+}

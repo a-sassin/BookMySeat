@@ -1,0 +1,91 @@
+<mat-spinner class="loader" *ngIf="isLoading"></mat-spinner>
+<mat-card class="card">
+    <mat-card-header class="head"><mat-card-title class="heading">Book a visit</mat-card-title></mat-card-header>
+    <hr class="divider">
+<mat-card-content class="container">
+    <form [formGroup]="visitBookForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Date of visit</mat-label>
+            <input matInput [matDatepicker]="picker"  formControlName="date"
+              placeholder="Enter date" readonly [min]="todaysDate" [max]="maxDate" [errorStateMatcher]="matcher" required  (focus)="picker.open()"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Whom do you want to meet?</mat-label>
+                <input
+                matInput 
+                type="text" 
+                #employeeInput 
+                formControlName="concernedPerson"
+                [matAutocomplete]="auto"
+                required
+                [errorStateMatcher]="matcher"
+                />
+                <mat-spinner 
+                *ngIf="isSearching" 
+                matSuffix 
+                diameter="18" 
+                class="loading-status"
+                > 
+                </mat-spinner>
+                <mat-icon *ngIf="!isSearching" matSuffix class="icon">person</mat-icon>
+
+            <mat-autocomplete 
+                #auto="matAutocomplete" 
+                [displayWith]="displayFn"
+                (optionSelected)="selected($event)">
+                <mat-option 
+                *ngFor="let employees of filteredEmployees" 
+                [value]="employees">
+                <span>{{ employees.name }} <small>{{ employees.empId }}</small></span>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-error *ngIf="visitBookForm.controls?.concernedPerson?.value && !visitBookForm.controls?.concernedPerson?.value?.empId"
+        >* Please select the employee name from the dropdown. 
+      </mat-error>
+
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="category" required [errorStateMatcher]="matcher">
+                <mat-option *ngFor="let category of categoryId" [value]="category">{{category}}
+                </mat-option>
+                 <mat-option value="Other">Other
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Reason for visit (Optional)</mat-label>
+            <input matInput formControlName="reason" #reasonInput placeholder="Reason for visit" [errorStateMatcher]="matcher" maxlength="50"  minlength="10"/>
+            <mat-error class="min-length" *ngIf="reasonInput.value?.length<10">*Min 10 chars </mat-error>
+        </mat-form-field>
+        <span  class="len-count">{{ reasonInput.value?.length || 0 }}/50</span>
+
+        <div class="radio-buttons">
+            <mat-radio-group formControlName="vaccination">
+              <mat-radio-button value="true" class="radio" color="primary">Vaccinated
+              </mat-radio-button>
+              <mat-radio-button value="false" color="primary">Not
+                Vaccinated
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        <div class="buttons">
+            <button mat-flat-button type="button" class="reset-button" (click)="onResetForm()">
+        Reset
+      </button>
+            <button  mat-raised-button type="submit"  class="book-button" color="primary" [disabled]="!visitBookForm.controls?.concernedPerson?.value?.empId ||
+            !visitBookForm.dirty|| !visitBookForm.valid">
+        Book Now
+      </button>
+        </div>
+
+    </form>
+</mat-card-content>
+</mat-card>

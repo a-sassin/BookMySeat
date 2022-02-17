@@ -1,0 +1,10 @@
+<mat-list-item class="list-items"[id]="item.id" (click)="onItemSelected(item)" >
+  <ng-container *ngIf="item.icon && item.icon.align === 'left'">
+  <mat-icon 
+    [matTooltip]="item.displayName" 
+    class="nav-icon--left-align">
+    {{ item.icon.name }}
+  </mat-icon>
+ </ng-container>
+  <span class="nav-text"> {{ item.displayName }} </span>
+</mat-list-item>

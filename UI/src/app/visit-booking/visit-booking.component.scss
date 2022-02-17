@@ -1,0 +1,98 @@
+$primary-color: #0b64ca;
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0px 0px -50px;
+    z-index: 1;
+}
+.card {
+    max-width: 700px;
+    margin: 2% auto;
+    max-height: 530px;
+    .head {
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .heading {
+        font-size: 24px;
+        font-family: 'Roboto', 'Regular';
+        font-weight: 900px;
+        letter-spacing: 2px;
+    }
+    .divider {
+        margin-left: 40px;
+        margin-right: 40px;
+        font-weight: bolder;
+    }
+    .container {
+        margin-top: 45px;
+        .form-field {
+            max-width: 350px;
+            display: block;
+            margin: auto;
+            height: 60px;
+            margin-bottom: 2px;
+            mat-label {
+                font-family: 'Roboto', 'Regular';
+                font-size: 14px;
+                opacity: 1;
+            }
+            .loading-status {
+                margin-right: 6px;
+            }
+            .icon {
+                margin-right: 6px;
+                color: gray;
+            }
+            .min-length {
+                color: red;
+            }
+        }
+        .len-count {
+            margin-left: 70%;
+            color: #5a5a5a;
+            font-size: 12px;
+        }
+        .radio-buttons {
+            font-family: 'Roboto', 'Regular';
+            font-size: 16px;
+            color: black;
+            max-width: 300px;
+            display: flex;
+            margin: 2% auto;
+            .radio {
+                margin-left: 20px;
+                margin-right: 25px;
+            }
+        }
+    }
+    .buttons {
+        display: flex;
+        max-width: 300px;
+        justify-content: space-evenly;
+        margin: 5% auto;
+        .reset-button,
+        .book-button {
+            width: 40%;
+            font-size: 16px;
+            font-family: 'Roboto', 'Regular';
+            border-radius: 8px;
+            text-align: center;
+            padding: 2px;
+        }
+        .reset-button {
+            color: $primary-color;
+            background-color: white;
+            border: 1px solid $primary-color;
+        }
+    }
+}
+
+.mat-error {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+    margin: 2px 0 8px 0;
+}
