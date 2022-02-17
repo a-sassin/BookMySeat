@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+     
+    stages {
+        stage('Building Docker Image') {
+            steps {
+               sh 'docker build -t bms-server-demo:latest .'
+            }
+        }
+        stage('Delete Previous running Containers') {
+            steps {
+               sh 'docker container rm -f bms-server-demo | echo true'
+               sh 'docker system prune --filter=label!=stage=builder -f'
+            }
+        }
+        stage('Running Docker Build on Port 3000') {
+            steps {
+                sh 'docker run -d -e ENVIRONMENT=demo --name bms-server-demo -p 3000:3000 bms-server-demo:latest'
+            }
+        }
+    }
+}

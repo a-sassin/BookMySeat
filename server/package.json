@@ -1,0 +1,52 @@
+{
+    "name": "book-my-seats-server",
+    "version": "1.0.0",
+    "description": "NodeJs Server with MongoDB ",
+    "main": "app.js",
+    "scripts": {
+        "start": "node server $ENVIRONMENT",
+        "dev": "nodemon server $ENVIRONMENT",
+        "dev-inspect": "nodemon --inspect=0.0.0.0 server $ENVIRONMENT",
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix"
+    },
+    "dependencies": {
+        "activedirectory": "^0.7.2",
+        "bee-queue": "^0.3.0",
+        "bull-arena": "^3.15.0",
+        "core-js": "^2.5.4",
+        "crypto-js": "^3.1.9-1",
+        "dotenv": "^8.2.0",
+        "exceljs": "^4.2.1",
+        "express": "^4.17.0",
+        "helmet": "^4.4.1",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.1",
+        "mongoose": "^5.12.13",
+        "nodemailer": "^6.5.0",
+        "redis": "^3.1.2",
+        "socket.io": "^3.1.1",
+        "swagger-jsdoc": "^6.0.0",
+        "swagger-ui-express": "^4.1.6"
+    },
+    "devDependencies": {
+        "eslint": "^7.22.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-plugin-import": "^2.22.1",
+        "nodemon": "^2.0.14"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://gsgit.gslab.com/chandan.jain/BookMySeats.git"
+    },
+    "author": "Chandan Jain",
+    "license": "ISC",
+    "prettier": {
+        "tabWidth": 4,
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "printWidth": 80,
+        "endOfLine": "lf"
+    }
+}

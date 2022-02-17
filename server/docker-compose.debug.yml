@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  bookmyseatsserver:
+    image: bms-server:latest
+    build:
+      context: .
+    ports:
+      - 1999:1999
+      - 9229:9229
+    volumes:
+      - /home/amit/Project/BMS/server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      ENVIRONMENT: local
+    command: ["sh", "-c", "redis-server > /dev/null 2>&1 & npm run dev-inspect"]

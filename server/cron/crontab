@@ -1,0 +1,2 @@
+0 0 * * * bash /home/centos/backup.sh
+0 0 * * 0 bash /home/centos/cleanup.sh

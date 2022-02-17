@@ -1,0 +1,1 @@
+echo "$(date) : $(curl -k -X DELETE -H "Content-Type: application/json" https://bms.gslab.com:4000/cleanup)">> /root/cleanup/cleanup.log

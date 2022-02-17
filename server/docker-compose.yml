@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  bookmyseatsserver:
+    image: bms-server:latest
+    build:
+      context: .
+    ports:
+      - 1999:1999
+    environment:
+      ENVIRONMENT: local
+    volumes:
+      - ${PWD}/:/usr/src/app
+      - /usr/src/app/node_modules
