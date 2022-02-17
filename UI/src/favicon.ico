@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Group_1780" data-name="Group 1780" transform="translate(-93 -2616)">
+    <g id="Rectangle_295" data-name="Rectangle 295" transform="translate(93 2616)" fill="#1352ca" stroke="#c4c4c4" stroke-width="1">
+      <rect width="36" height="36" rx="4" stroke="none"/>
+      <rect x="0.5" y="0.5" width="35" height="35" rx="3.5" fill="none"/>
+    </g>
+    <text id="BMS" transform="translate(96 2640)" fill="#fff" font-size="15" font-family="Ubuntu"><tspan x="0" y="0">BMS</tspan></text>
+  </g>
+</svg>

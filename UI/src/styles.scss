@@ -1,0 +1,83 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import '~font-awesome/css/font-awesome.css';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+$book-seat-primary: mat-palette($mat-blue, 800);
+$book-seat-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$book-seat-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$book-seat-theme: mat-light-theme(
+    (
+        color: (
+            primary: $book-seat-primary,
+            accent: $book-seat-accent,
+            warn: $book-seat-warn,
+        ),
+    )
+);
+$primary-color: #0b64ca;
+$border-color: #5a5a5a;
+//  Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($book-seat-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.modelbox-styles {
+    mat-dialog-container {
+        border-radius: 10px;
+        overflow: unset;
+        padding: 0;
+    }
+}
+.edit-dialogbox-styles {
+    mat-dialog-container {
+        border: 1px solid $border-color;
+        margin-top: 30px;
+        width: 500px;
+        overflow: unset;
+    }
+}
+
+.visit-confirmation-style {
+    mat-dialog-container {
+        border-radius: 25px;
+        width: 500px;
+        height: 300px;
+        overflow: unset;
+    }
+}
+
+.mat-tab-label-active {
+    color: $primary-color;
+    pointer-events: none;
+}
