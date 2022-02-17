@@ -1,0 +1,88 @@
+$basic: #fff;
+$primary: grey;
+$success: #00c448;
+
+::ng-deep {
+    .mat-progress-bar-fill::after {
+        background-color: #00c448 !important;
+    }
+
+    .mat-progress-bar {
+        height: 3px !important;
+        width: 80% !important;
+    }
+}
+
+.circle {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    color: $basic;
+    line-height: 2rem;
+    text-align: center;
+    background: $primary;
+}
+
+.status-progress-bar {
+    margin: 1rem 0.25rem 0;
+}
+
+.final-step-text {
+    font-size: 0.75rem;
+    margin: 0.5rem 0 0 -0.7rem;
+}
+
+.status-text {
+    font-size: 0.75rem;
+    margin: 0.5rem 0 0 -2rem;
+}
+.complete {
+    color: $success;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.final-step-container,
+.progress-container__individual {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .dashed {
+        position: absolute;
+        display: block;
+        width: 7rem;
+        height: 3px;
+        top: 20%;
+        left: 25%;
+        border-radius: 15px;
+    }
+}
+
+.progress-container__individual {
+    width: 10rem;
+}
+
+.step-progress-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.step-completed {
+    background: $success !important;
+}
+
+//dashed color
+.dashed-completed {
+    background-color: $success;
+}
+
+.dashed-in-completed {
+    background-color: $primary;
+}

@@ -1,0 +1,14 @@
+<div class="requests-page-container">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+        <mat-tab label="Seat Booking Requests" *ngIf="showSeatRequest">
+            <ng-template matTabContent>
+                <app-pending-approval></app-pending-approval>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Visit Requests" *ngIf="showVisitRequest">
+            <ng-template matTabContent>
+                <app-visit-booking-request></app-visit-booking-request>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

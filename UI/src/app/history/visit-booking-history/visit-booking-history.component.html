@@ -1,0 +1,16 @@
+<mat-card class="visit-booked-history-wrapper">
+  <app-table
+  [tablePropertiesToColumn]="visitBookingHistoryTableFields"
+  [tableData]="visitBookedHistoryList"
+  [columnToBeDisplayed]="displayedColumns"
+  [tableLoader]="tableLoader"
+  [filters]="true"
+  [filterOptions]="filterOptions"
+  (linkClickedEvent)="onLinkClick($event)"
+  [paginationModel]="paginationModel"
+  (paginationChanges)="onPaginationChange($event)"
+  (dateSelectionChange)="onDateFilterChange($event)"
+  (statusSelectionChange)="onStatusFilterChange($event)"
+  (resetFilterEvent)="onResetClick($event)"
+></app-table>
+</mat-card>

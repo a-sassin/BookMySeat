@@ -1,0 +1,51 @@
+$primary-color: #0b64ca;
+$container-bg: #d9d9d9;
+$req-heading-color: #000000;
+
+@mixin common-btn($bgcolor) {
+    color: $bgcolor;
+    border-radius: 5px;
+    width: 125px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        img {
+            width: 153px;
+            height: 153px;
+            margin-left: 30px;
+        }
+        .text-container {
+            margin-top: 3px;
+            text-align: center;
+            .bold-message {
+                font-size: 18px;
+                font-weight: 550;
+                color: $req-heading-color;
+                margin-bottom: 1px;
+            }
+        }
+        .actions-button {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            .home-button {
+                @include common-btn(grey);
+            }
+            .status-button {
+                @include common-btn($primary-color);
+            }
+        }
+    }
+}

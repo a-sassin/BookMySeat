@@ -1,0 +1,17 @@
+<mat-card class="visit-pending-wrapper">
+    <app-table
+      [tablePropertiesToColumn]="masterTableFields"
+      [tableData]="visitPendingApprovalList"
+      [columnToBeDisplayed]="displayedColumns"
+      [tableLoader]="tableLoader"
+      [filters]="true"
+      [showLegend]="true"
+      [filterOptions]="filterOptions"
+      [paginationModel]="paginationModel"
+      (paginationChanges)="onPaginationChange($event)"
+      (buttonClickedEvent)="onButtonClicked($event)"
+      (iconClickedEvent)="onButtonClicked($event)"
+      (dateSelectionChange)="onDateFilterChange($event)"
+      (resetFilterEvent)="onResetClick($event)"
+    ></app-table>
+  </mat-card>

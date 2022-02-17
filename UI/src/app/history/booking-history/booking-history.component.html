@@ -1,0 +1,17 @@
+<mat-card class="booked-history-wrapper">
+  <app-table
+    [tablePropertiesToColumn]="bookingHistoryTableFields"
+    [tableData]="bookedHistoryList"
+    [columnToBeDisplayed]="displayedColumns"
+    [tableLoader]="tableLoader"
+    [filters]="true"
+    [filterOptions]="filterOptions"
+    (linkClickedEvent)="onLinkClick($event)"
+    [paginationModel]="paginationModel"
+    (paginationChanges)="onPaginationChange($event)"
+    (dateSelectionChange)="onDateFilterChange($event)"
+    (statusSelectionChange)="onStatusFilterChange($event)"
+    (resetFilterEvent)="onResetClick($event)"
+    (iconClickedEvent)="onIconClick($event)"
+  ></app-table>
+</mat-card>

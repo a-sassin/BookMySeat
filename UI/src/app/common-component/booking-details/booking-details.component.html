@@ -1,0 +1,64 @@
+<div class="booking-details-wrapper">
+  <div *ngIf="isNotSubordinatesSlide">
+    <div class="details-wrapper">
+      <div class="details-container">
+        <div class="details-icons">
+          <mat-icon>date_range</mat-icon>
+          <span class="details-text"> {{ rowDetails?.date }}</span>
+        </div>
+        <div class="details-icons">
+          <mat-icon>airline_seat_recline_normal</mat-icon>
+          <abbr [title]="rowDetails?.seatNumber" class="abbr-title">
+            <span class="details-text"> Seat Num - {{rowDetails?.seatNumber[0]}}</span>
+            <span *ngIf="rowDetails?.seatNumber?.length>1"><b>+{{rowDetails?.seatNumber?.length-1}}</b></span>
+          </abbr>
+        </div>
+      </div>
+
+      <div class="details-container">
+        <div class="details-icons">
+          <mat-icon svgIcon="perm_identity"></mat-icon>
+          <span class="details-text"> Booked For - {{ rowDetails?.bookedFor }}</span>
+        </div>
+        <div class="details-icons">
+          <mat-icon class="status-icon">linear_scale</mat-icon>
+          <span class="details-text" *ngIf="rowDetails?.status">
+            Status - {{ rowDetails?.status }}</span>
+          <span class="details-text" *ngIf="rowDetails?.subordinates">
+            Seats - {{ rowDetails?.seatNumber?.length }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="reason">
+      <span class="details-text"> Reason of booking : {{ rowDetails?.reason }}</span>
+    </div>
+
+
+    <div class="remark-container" *ngIf="rowDetails?.remark?.length">
+      <p class="details-text" id="remark">Remark</p>
+      <span class="remark-text">{{ rowDetails?.remark }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!isNotSubordinatesSlide" class="subordinates">
+    <div *ngFor="let member of (rowDetails?.subordinates || rowDetails?.selectedSeats)">
+      <span class="name-align">{{ member?.bookedForName }} <b>{{ member?.seatNo }}</b></span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="showProgressbar && isNotSubordinatesSlide">
+    <app-custom-progress-bar [rowDetails]="rowDetails" [progressData]="progressBarDetails"></app-custom-progress-bar>
+  </ng-container>
+
+  <footer>
+    <div class="navigate" *ngIf="rowDetails?.bookedFor==='Team' && (rowDetails?.subordinates?.length || rowDetails?.seatNumber?.length)">
+      <div *ngIf="!isNotSubordinatesSlide" (click)="onSlideChange()" class="arrow">
+        <img src="assets/back.svg" alt="back" />
+      </div>
+      <div *ngIf="isNotSubordinatesSlide" (click)="onSlideChange()" class="arrow" id="front">
+        <img src="assets/back.svg" alt="back" />
+      </div>
+    </div>
+  </footer>
+</div>

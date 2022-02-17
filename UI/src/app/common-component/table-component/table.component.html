@@ -1,0 +1,266 @@
+<mat-spinner
+    data-auto="common-table-component-spinner"
+    class="loader"
+    *ngIf="tableLoader"
+></mat-spinner>
+<div id="filters" *ngIf="filters" data-auto="common-table-filters-container">
+    <ng-container *ngFor="let filterOption of filterOptions; let i = index">
+        <mat-form-field
+            attr.data-auto="table-{{ filterOption?.inputType }}-{{ i }}"
+            *ngIf="filterOption?.inputType === 'date-picker'"
+        >
+            <mat-label
+                attr.data-auto="table-{{
+                    filterOption?.inputType
+                }}-filter-label-{{ i }}"
+                >{{ filterOption.label }}</mat-label
+            >
+            <!-- date picker-->
+            <input
+                attr.data-auto="table-date-filter-{{ i }}"
+                matInput
+                (dateChange)="onDateFilterChange($event)"
+                [matDatepicker]="picker"
+                [min]="filterOption?.minDate"
+                [max]="filterOption?.maxDate"
+                readonly
+                [(ngModel)]="dateFilterValue"
+            />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- mat select-->
+        <mat-form-field
+            attr.data-auto="table-{{ filterOption?.inputType }}-filter-field"
+            *ngIf="filterOption?.inputType === 'mat-select'"
+        >
+            <mat-label
+                attr.data-auto="table-{{
+                    filterOption?.inputType
+                }}-filter-label"
+                >{{ filterOption.label }}</mat-label
+            >
+            <mat-select
+                attr.data-auto="table-status-filter-{{ i }}"
+                (selectionChange)="onStatusFilterChange($event)"
+                [(ngModel)]="statusFilterValue"
+            >
+                <mat-option attr.data-auto="select-option-0">None</mat-option>
+                <mat-option
+                    attr.data-auto="select-option-{{ selectOptionIndex + 1 }}"
+                    *ngFor="
+                        let selectOption of filterOption?.selectOptions;
+                        let selectOptionIndex = index
+                    "
+                    [value]="selectOption.value"
+                >
+                    {{ selectOption?.displayValue }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+    <span
+        id="reset"
+        data-auto="reset-table-filters"
+        (click)="onResetClick()"
+        *ngIf="statusFilterValue || dateFilterValue"
+        >Reset</span
+    >
+    <!-- vaccination status legend -->
+    <div class="legends" *ngIf="tableData?.length && showLegend" data-auto="vaccination-status-legend">
+    <div class="legend-division">
+        <div class="color-2"></div>
+        <span class="legend-name">Not Vaccinated</span>
+    </div>
+    <div class="legend-division">
+        <div class="color-1"></div>
+        <span class="legend-name">Vaccinated</span>
+    </div>
+</div>
+</div>
+<mat-table [dataSource]="tableData" data-auto="common-table">
+    <ng-container *ngFor="let column of tablePropertiesToColumn">
+        <ng-container matColumnDef="{{ column.fieldName }}">
+            <mat-header-cell
+                attr.data-auto="common-table-header-{{ column.headerName }}"
+                *matHeaderCellDef
+                >{{ column.headerName }}</mat-header-cell
+            >
+            <mat-cell
+                *matCellDef="let element"
+                attr.data-auto="common-table-cell-{{
+                    element[column.fieldName]
+                }}"
+            >
+                <ng-container
+                    *ngIf="
+                        column.cellContent === 'text' ||
+                        column.cellContent === 'number'
+                    "
+                >
+                    <span
+                        class="wrap-text"
+                        [title]="tableHover(element, column)"
+                        [attr.style]="element[column.dynamicStyleField]"
+                    >
+                        <span *ngIf="!isMultiple(element[column.fieldName])">{{
+                            element[column.fieldName]
+                        }}</span>
+                        <span *ngIf="isMultiple(element[column.fieldName])">
+                            <span
+                                *ngFor="
+                                    let elem of element[column.fieldName];
+                                    let i = index
+                                "
+                            >
+                                {{ elem }}
+                                <span
+                                    *ngIf="
+                                        !(
+                                            element[column.fieldName].length -
+                                                1 ===
+                                            i
+                                        )
+                                    "
+                                    >,</span
+                                >
+                            </span>
+                        </span>
+                    <mat-icon class="material-icons-outlined" 
+                        title="View more"
+                        *ngIf="getTooltip(column,element)" 
+                        (click)="onIconClick({iconClicked:column.headerName,row:element})" 
+                        [inline]="true">info
+                    </mat-icon> 
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="column.cellContent === 'link'">
+                    <a
+                        *ngIf="
+                            column.allowLinkDisabling && !element?.linkStatus;
+                            else enabledLink
+                        "
+                        class="disabled-link table-link"
+                        [routerLink]=""
+                        [routerLinkActive]="'active'"
+                        attr.data-auto="common-table-link-{{
+                            element[column.fieldName]
+                        }}-disabled"
+                    >
+                        {{ element[column.fieldName] }}
+                    </a>
+                    <ng-template #enabledLink>
+                        <a
+                            class="table-link enabled-link"
+                            [routerLink]=""
+                            [routerLinkActive]="'active'"
+                            (click)="
+                                onLinkClick({
+                                    linkClicked: element[column.fieldName],
+                                    columnName: column.headerName,
+                                    row: element
+                                })
+                            "
+                            attr.data-auto="common-table-link-{{
+                                element[column.fieldName]
+                            }}-enabled"
+                        >
+                            {{ element[column.fieldName] }}
+                        </a>
+                    </ng-template>
+                </ng-container>
+                <ng-container *ngIf="column.cellContent === 'class'">
+                    <span
+                        class="{{ column?.iconClass?.class }} table-icon"
+                        (click)="
+                            onIconClick({
+                                iconClicked: column?.iconClass?.value,
+                                row: element
+                            })
+                        "
+                    >
+                    </span>
+                </ng-container>
+
+                <ng-container *ngIf="column.cellContent === 'classIcon'">
+                    <ng-container *ngFor="let iconProp of column.iconClass; let iconIndex = index">
+                      <mat-icon matTooltip="{{ iconProp.value }}" color="{{ iconProp.color }}" [attr.style]="iconProp?.style" class="table-icon"
+                        attr.data-auto="common-table-icon-{{ iconProp.value }}-{{
+                          iconIndex
+                        }}" (click)="
+                        onButtonClick({
+                            buttonClicked: iconProp.value,
+                            row: element
+                        })
+                        ">
+                        {{ iconProp?.class }}
+                      </mat-icon>
+                    </ng-container>
+                  </ng-container>
+
+                <ng-container *ngIf="column.cellContent === 'button'">
+                    <ng-container
+                        *ngFor="
+                            let buttonProp of column.buttonProperties;
+                            let buttonIndex = index
+                        "
+                    >
+                    <button *ngIf="buttonProp?.disableButton && !element?.buttonStatus ; else enableButton"
+                            attr.data-auto="common-table-button-{{
+                                buttonProp.value
+                            }}-{{ buttonIndex }}"
+                            [attr.style]="buttonProp?.style"
+                            mat-raised-button
+                            color="{{ buttonProp?.color }}"
+                            [disabled]="true"
+                        >
+                            <span>{{ buttonProp.buttonText }}</span>
+                        </button>
+                        <ng-template #enableButton>
+                            <button
+                            attr.data-auto="common-table-button-{{
+                                buttonProp.value
+                            }}-{{ buttonIndex }}"
+                            [attr.style]="buttonProp?.style"
+                            mat-raised-button
+                            color="{{ buttonProp?.color }}"
+                            (click)="
+                                onButtonClick({
+                                    buttonClicked: buttonProp.value,
+                                    row: element
+                                })
+                            "
+                        >
+                            <span>{{ buttonProp.buttonText }}</span>
+                        </button>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+            </mat-cell>
+        </ng-container>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnToBeDisplayed"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnToBeDisplayed" (click)="onRowClick(row)" 
+    [ngClass]="{highlight:checkColumn(columnToBeDisplayed)}"></mat-row>
+</mat-table>
+
+<div *ngIf="tableData?.length === 0" class="empty-table">
+    <span data-auto="common-table-component-no-records"
+        >No Records Available</span
+    >
+</div>
+
+<mat-paginator
+    data-auto="common-table-component-pagination"
+    *ngIf="showPagination"
+    [length]="paginationModel?.totalRecords"
+    [pageSize]="paginationModel?.pageSize"
+    [pageIndex]="paginationModel?.pageIndex"
+    [pageSizeOptions]="paginationModel?.pageSizeOptions"
+    (page)="onPaginationChange($event)"
+></mat-paginator>

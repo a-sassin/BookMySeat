@@ -1,0 +1,136 @@
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0px 0px -50px;
+}
+
+.empty-table {
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.table-icon {
+    cursor: pointer;
+}
+
+.highlight {
+    cursor: pointer;
+    &:hover {
+        background-color: #f2f8ff;
+    }
+}
+
+.wrap-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .material-icons-outlined {
+        position: absolute;
+        margin-top: -8px;
+        font-size: 18px;
+        color: #0b64ca;
+        cursor: pointer;
+    }
+}
+
+.disabled-link {
+    color: gray;
+    cursor: default;
+}
+
+.table-link {
+    text-decoration: none;
+}
+
+.enabled-link {
+    color: #1565c0;
+}
+
+mat-header-cell,
+mat-cell {
+    justify-content: center;
+    @media screen and (max-width: 600px) {
+        font-size: 0.7rem;
+    }
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+    padding-left: 0;
+}
+
+#filters {
+    display: flex;
+    mat-form-field {
+        width: 150px;
+        margin-left: 10px;
+        @media screen and (max-width: 600px) {
+            width: 80px;
+        }
+    }
+    #reset {
+        margin: 1rem 0 0 1rem;
+        font-weight: 600;
+        font-size: 15px;
+        color: #0b64ca;
+        cursor: pointer;
+    }
+    .legends {
+        display: flex;
+        position: absolute;
+        right: 0;
+        padding-top: 20px;
+        margin-right: 19px;
+        font-family: 'Poppins', sans-serif;
+        @media screen and (max-width: 400px) {
+            flex-flow: column wrap;
+        }
+        .legend-division {
+            display: flex;
+            .color-1,
+            .color-2 {
+                margin-top: 2.5px;
+                margin-right: 7px;
+                width: 14px;
+                height: 14px;
+                border-radius: 22px;
+                @media screen and (max-width: 600px) {
+                    width: 0.6rem;
+                    height: 0.6rem;
+                }
+            }
+            .color-1 {
+                background-color: #06a125;
+            }
+            .color-2 {
+                background-color: #c40000;
+            }
+            .legend-name {
+                margin-right: 17px;
+                font-size: 14px;
+                font-family: 'Poppins', sans-serif;
+                color: #242424;
+                @media screen and (max-width: 600px) {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+}
+
+.multiple {
+    font-size: 11px;
+}

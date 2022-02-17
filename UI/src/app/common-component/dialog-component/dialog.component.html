@@ -1,0 +1,107 @@
+<div class="dialog-box">
+  <div mat-dialog-title class="dialog-title">
+    <span class="dialog-title-name">{{ data.title }}</span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-content class="content">
+    <ng-container
+      *ngIf="
+        data?.dialogType === 'confirm rejection' || data?.dialogType === 'confirmation' || data?.dialogType==='status info';
+        else detailsContainer
+      "
+    >
+      <span ngClass="{{data?.warningMessage?'max-dialog-content':'dialog-content'}}" [innerHTML]="data?.message"></span>
+      <span class="dialong-warning-content" *ngIf="data?.warningMessage">
+        <mat-icon style="margin-top: -8px; font-size: 14px;" inline=true title="Read more">info</mat-icon> 
+        {{data?.warningMessage}}
+      </span> 
+      <ng-container *ngIf="data.textArea">
+        <mat-form-field class="remark-input-field">
+          <textarea
+            matInput
+            [(ngModel)]="data.content"
+            placeholder="{{ data?.textAreaPlaceholder }}"
+            required
+            [maxLength]="50"
+            #dialogBoxTextarea
+          ></textarea>
+        <ng-container *ngIf="dialogBoxTextarea.value?.length<10 && dialogBoxTextarea.value?.length!==0">
+          <div class="min-length">
+          * Min 10 chars
+          </div>
+        </ng-container>
+          <mat-hint align="end">{{ dialogBoxTextarea.value?.length || 0 }}/50</mat-hint>
+        </mat-form-field>
+      </ng-container>
+        <!-- on click on info icon show cancellation message -->
+      <ng-container *ngIf="data?.dialogType==='status info'">
+        <!-- blocked facility cancellation message dialogbox -->
+        <div class="partially-action-info" *ngIf="data?.info?.blockedDates?.length && showBlockedMssg && !statusCancel">
+          <mat-icon class="material-icons-outlined" [inline]="true">sentiment_dissatisfied</mat-icon>
+          <div class="bold-message">Sorry for the inconvenience!</div>
+          <div class="reason-info">
+            <span title={{data?.info?.facilityName}}>{{data?.info?.facilityId}}</span> floor {{data?.info?.floorNo}} has/had been blocked for the 
+            {{blockedDateRange.length>1?'dates':'date'}}
+            <ng-container *ngFor="let date of blockedDateRange;let i=index">{{date}}
+              {{i!==blockedDateRange?.length-1?',':'.'}}
+            </ng-container>
+          </div>
+          <div class="notice-message">
+            <span style="color: red;"><mat-icon style="margin-top: -8px; font-size: 14px;" inline=true title="Read more">info</mat-icon> 
+            Your approved or pending  {{data?.info?.blockedDates?.length>1?'bookings':'booking'}} 
+            for the above mentioned  {{data?.info?.blockedDates?.length>1?'dates':'date'}} have been cancelled.
+          </span> 
+          </div>
+        </div>
+        <!-- self cancel booking or blocked seat cacncellation message dialogbox -->
+        <div class="partially-action-info" *ngIf="data?.info?.cancelledDates?.length && (!showBlockedMssg || statusCancel)">
+          <mat-icon class="material-icons-outlined" [inline]="true">delete</mat-icon>
+          <div class="bold-message">Booking Cancelled!</div>
+          <div class="reason-info">
+            <span *ngIf="data?.info?.cancelledDates.length===1">
+              This booking has/had been cancelled for {{data?.info?.cancelledDates[0] | date:'MMM dd'}}.
+            </span>
+            <span *ngIf="data?.info?.cancelledDates.length>1">
+              This booking has/had been cancelled from {{data?.info?.cancelledDates[0] | date:'MMM dd'}} to 
+              {{data?.info?.cancelledDates.slice(-1) | date:'MMM dd'}}.
+            </span>
+          </div>
+        </div>
+        <!-- if both cancelled and blocked date  -->
+          <div class="navigate" *ngIf="data?.info?.blockedDates?.length && data?.info?.cancelledDates?.length &&  !statusCancel">
+            <div *ngIf="!showBlockedMssg" (click)="onSlideChange()" class="arrow">
+              <img src="assets/back.svg" alt="back" />
+            </div>
+            <div *ngIf="showBlockedMssg" (click)="onSlideChange()" class="arrow" id="front">
+              <img src="assets/back.svg" alt="back" />
+            </div>
+          </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #detailsContainer>
+      <div>
+        <app-booking-details
+          [rowDetails]="data?.info"
+          [progressBarDetails]="data?.progressBarData"
+        ></app-booking-details>
+      </div>
+    </ng-template>
+  </div>
+
+  <div mat-dialog-actions class="proceed-button" *ngIf="data?.proceed">
+    <ng-container *ngFor="let buttonDetails of data.buttonProp">
+      <button
+        [attr.style]="buttonDetails?.style"
+        mat-raised-button
+        [ngClass]="data?.warningMessage?'margin-dialog-button':'dialog-button'"
+        [mat-dialog-close]="{ proceed: buttonDetails.dialogCloseText, content: data?.content }"
+        color="{{ buttonDetails?.buttonColor }}"
+        cdkFocusInitial
+        [disabled]="buttonDetails.buttonValidation && data?.content?.length<10"
+      >
+        {{ buttonDetails.buttonText }}
+      </button>
+    </ng-container>
+  </div>
+</div>

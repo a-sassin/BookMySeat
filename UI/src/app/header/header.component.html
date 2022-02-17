@@ -1,0 +1,75 @@
+<div class="header-container">
+  <button mat-icon-button class="sidenav-menu-button" (click)="menuClicked()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div [ngClass]=" checkParams() ?'pointer-logo':'logo-container'" routerLink="/" (click)="menuClosed()">
+    <img src="/assets/gslab.svg" height="75%" width="20%" alt="gsLab-icon" />
+    <span class="brand-name">Book My Seat</span>
+  </div>
+
+  <div [matMenuTriggerFor]="reportBug" [ngClass]="showNotification?'bug':'bug-align'">
+    <abbr title="Feedback"><img src="assets/feedback.png" class="material-icons-outlined" /></abbr>
+  </div>
+  <mat-menu #reportBug="matMenu" xPosition="before">
+    <div class="bugEmail">
+      <p class="bugTitle"> Report a Bug </p>
+      <a href="{{addBody()}}" class="emailId" target="_blank">Click to drop a mail</a>
+    </div>
+  </mat-menu>
+
+  <div *ngIf="showNotification" data-auto="notification-container" class="notification-container"
+    [matMenuTriggerFor]="notification">
+    <mat-icon data-auto="notification-icon" *ngIf="notificationCount.totalBookingCount === 0" color="primary">
+      notifications</mat-icon>
+    <mat-icon data-auto="notification-icon" *ngIf="notificationCount.totalBookingCount > 0"
+      [matBadge]="notificationCount.totalBookingCount" color="primary" matBadgeColor="warn">notifications</mat-icon>
+    <mat-icon color="primary">arrow_drop_down</mat-icon>
+    <!-- Include text description of the icon's meaning for screen-readers -->
+    <span class="cdk-visually-hidden"> Notification icon with pending request count. </span>
+    <mat-menu #notification>
+      <div data-auto="notification-dropdown-container" id="notify">
+        <p data-auto="notification-dropdown-label" id="label" *ngIf="notificationCount.totalBookingCount">
+          New requests awaiting your action
+        </p>
+        <p data-auto="notification-dropdown-label" id="noReqLabel" *ngIf="!notificationCount.totalBookingCount">
+          No new requests
+        </p>
+        <p data-auto="notification-dropdown-requests" id="requests" (click)="onSeatPendingRequestClick()"
+          *ngIf="isSeatBookingRole()">
+          Pending seat booking request(s) - {{ notificationCount.seatBookingCount }}
+        </p>
+        <p data-auto="notification-dropdown-requests" id="requests" (click)="onVisitPendingRequestClick()"
+          *ngIf="isVisitBookingRole()">
+          Pending visit request(s) - {{ notificationCount.visitBookingCount }}
+        </p>
+      </div>
+    </mat-menu>
+  </div>
+  <div class="account-button-container">
+    <button mat-mini-fab mat-button color="primary" [matMenuTriggerFor]="accountCard">
+      <span>{{ initials }}</span>
+    </button>
+
+    <mat-menu #accountCard>
+      <div mat-menu-item>
+        <div class="title-container">
+          <div class="account-fab-button-container">
+            <button mat-fab color="primary">
+              <span>{{ initials }}</span>
+            </button>
+          </div>
+          <div class="name-container">
+            <span class="name">{{ employeeName }}</span>
+            <span class="email">{{ employeeData.email }}</span>
+          </div>
+        </div>
+        <div class="last-child" (click)="logout()">
+          <ng-container>
+            <img src="assets/logout.svg" alt="assets/logout.svg" class="nav-icon--left-align" />
+          </ng-container>
+          <span class="nav-text"> Log Out </span>
+        </div>
+      </div>
+    </mat-menu>
+  </div>
+</div>

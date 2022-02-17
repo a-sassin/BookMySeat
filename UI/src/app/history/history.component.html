@@ -1,0 +1,10 @@
+<div class="requests-page-container">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange()">
+        <mat-tab label="Seat Booking History">
+            <app-booking-history></app-booking-history>
+        </mat-tab>
+        <mat-tab label="Visit Booking History">
+            <app-visit-booking-history></app-visit-booking-history>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,143 @@
+.dialog-content,
+.max-dialog-content {
+    font-size: 1.1rem;
+    display: block;
+    padding: 0.5rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: normal;
+    font-weight: 100;
+    text-align: center;
+}
+.dialong-warning-content {
+    font-size: 0.83rem;
+    display: block;
+    color: red;
+}
+.dialog-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.dialog-button,
+.margin-dialog-button {
+    min-width: 6rem;
+    margin-top: 1rem;
+}
+.margin-dialog-button {
+    margin-top: 0.5rem;
+}
+
+.mat-button {
+    line-height: 25px;
+}
+
+.dialog-title-name {
+    width: 100%;
+}
+
+.dialog-close {
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+.match-name-input {
+    font-size: 1.15rem;
+    width: 300px;
+    margin-top: 20px;
+    line-height: 1.25rem;
+}
+.mat-dialog-content {
+    margin-top: 1rem !important;
+}
+
+.remark-input-field {
+    width: 90% !important;
+}
+
+.dialog-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .dialog-content {
+            margin-top: 30px;
+        }
+        .max-dialog-content {
+            margin-top: 20px;
+        }
+    }
+    .proceed-button {
+        display: flex;
+        justify-content: center;
+    }
+    mat-divider {
+        margin: -10px 20px 0 25px;
+        background: #80808080;
+        height: 0.5px;
+    }
+}
+
+.material-icons-outlined {
+    margin: -15px 0 40px 0;
+    font-size: 90px;
+    color: #f17b62;
+}
+
+.partially-action-info {
+    margin: 0 2rem 0.8rem 2rem;
+    display: block;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    .bold-message {
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+    }
+    .reason-info {
+        font-size: 1.1rem;
+        letter-spacing: normal;
+        font-weight: 100;
+        margin: -0.6rem 0 1rem 0;
+    }
+    .notice-message {
+        font: 0.8rem;
+    }
+}
+
+.navigate {
+    display: flex;
+    justify-content: center;
+    .arrow {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: relative;
+        bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        outline: none;
+        &:hover {
+            background-color: #d9d9d9;
+        }
+    }
+
+    #front {
+        transform: rotate(180deg);
+    }
+}
+
+.min-length {
+    color: red;
+    line-height: 0em;
+    transform: translateY(15px);
+    font-size: 11px;
+}

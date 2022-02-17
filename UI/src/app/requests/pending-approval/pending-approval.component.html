@@ -1,0 +1,18 @@
+<mat-card class="pending-approval-wrapper">
+  <app-table
+    [tablePropertiesToColumn]="masterTableFields"
+    [tableData]="pendingApprovalList"
+    [columnToBeDisplayed]="displayedColumns"
+    [tableLoader]="tableLoader"
+    [filters]="true"
+    [showLegend]="true"
+    [filterOptions]="filterOptions"
+    (linkClickedEvent)="onLinkClick($event)"
+    [paginationModel]="paginationModel"
+    (paginationChanges)="onPaginationChange($event)"
+    (buttonClickedEvent)="onButtonClicked($event)"
+    (iconClickedEvent)="onButtonClicked($event)"
+    (dateSelectionChange)="onDateFilterChange($event)"
+    (resetFilterEvent)="onResetClick($event)"
+  ></app-table>
+</mat-card>

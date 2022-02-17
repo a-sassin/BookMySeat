@@ -1,0 +1,38 @@
+<div class="progress-container">
+  <ng-container *ngFor="let status of progressData?.statusText; index as i">
+    <ng-container *ngIf="progressData?.statusText?.length - 1 > i; else finalStep">
+      <div class="progress-container__individual">
+        <div class="step-progress-container">
+          <span [ngClass]="progressData?.progressAtStep > i ? 'step-completed circle' : 'circle'">{{
+            i + 1
+          }}</span>
+          <mat-progress-bar class="status-progress-bar" mode="determinate" value="100">
+          </mat-progress-bar>
+        </div>
+
+        <span class="status-text" [ngClass]="progressData?.progressAtStep > i ? 'complete' : null">
+          {{ status }}</span
+        >
+        <span
+          class="dashed"
+          [ngClass]="progressData?.progressAtStep > i ? 'dashed-completed' : 'dashed-in-completed'"
+        ></span>
+      </div>
+    </ng-container>
+    <ng-template #finalStep>
+      <div class="final-step-container">
+        <div class="step-progress-container">
+          <div [ngClass]="progressData?.progressAtStep > i ? 'step-completed circle' : 'circle'">
+            {{ i + 1 }}
+          </div>
+        </div>
+        <span
+          class="final-step-text"
+          [ngClass]="progressData?.progressAtStep > i ? 'complete' : null"
+        >
+          {{ status }}</span
+        >
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

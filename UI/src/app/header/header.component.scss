@@ -1,0 +1,197 @@
+$primary-color: #0b64ca;
+
+.header-container {
+    width: 100vw;
+    height: 3rem;
+    position: fixed;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    opacity: 1;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container,
+.pointer-logo {
+    top: 0.2rem;
+    left: 5rem;
+    width: 13rem;
+    height: 41px;
+    opacity: 1;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    .brand-name {
+        font-weight: 700;
+        color: $primary-color;
+        font-size: 1rem;
+        margin-left: 0.5rem;
+    }
+}
+
+.pointer-logo {
+    pointer-events: none;
+}
+
+.logo-container {
+    cursor: pointer;
+}
+
+.sidenav-menu-button {
+    margin-left: 1rem;
+}
+.mat-menu-content {
+    min-height: 10rem;
+    width: 13rem;
+}
+.mat-menu-item {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    line-height: 20px !important;
+    white-space: normal;
+}
+
+.title-container {
+    display: flex !important;
+    align-items: center;
+    height: 6rem;
+}
+
+.name-container {
+    width: 10rem;
+
+    span {
+        display: block;
+        margin-left: 0.5rem;
+        padding-right: 5px;
+    }
+    .name {
+        font-size: 14px;
+    }
+    .email {
+        font-size: 11px;
+        word-wrap: break-word;
+    }
+}
+
+::ng-deep.mat-fab .mat-button-wrapper {
+    line-height: 20px !important;
+    height: auto;
+}
+
+div .mat-fab {
+    font-size: 22px;
+    width: 50px;
+    height: 50px;
+}
+.account-button-container {
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    justify-content: center;
+    width: 50px;
+}
+.notification-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    right: 5.5rem;
+    align-items: center;
+    mat-icon {
+        cursor: pointer;
+    }
+    .material-icons {
+        font-size: 30px;
+    }
+}
+.last-child {
+    border-top: 3px solid #fafafa;
+    font: 18px Roboto, Regular bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    color: #545454;
+}
+.nav-icon--left-align {
+    float: left;
+    width: 36px;
+    height: 26px;
+    color: #545454;
+}
+
+#notify {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    #label,
+    #noReqLabel {
+        margin: 0.5rem 0 1rem 0;
+        background-color: #f9f956;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #484848;
+        width: 100%;
+    }
+    #noReqLabel {
+        color: black;
+    }
+    #requests {
+        padding: 0 10px;
+        margin-bottom: 1rem;
+        color: #0b64ca;
+        cursor: pointer;
+    }
+}
+
+.bug,
+.bug-align {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    align-items: center;
+    .material-icons-outlined {
+        height: 24px;
+        width: 24px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    .material-icons {
+        font-size: 30px;
+    }
+}
+.bug-align {
+    right: 5.5rem;
+}
+.bug {
+    right: 9.5rem;
+}
+.bugTitle {
+    font-weight: 400px;
+    text-align: center;
+    color: red;
+}
+
+.bugEmail {
+    font-size: 14px;
+    padding: 15px;
+    .emailId {
+        font-weight: 600;
+        opacity: 0.75;
+        font-style: italic;
+        color: $primary-color;
+    }
+}
+@media screen and (max-width: 600px) {
+    .bug,
+    .bug-align,
+    .notification-container {
+        display: none;
+    }
+}

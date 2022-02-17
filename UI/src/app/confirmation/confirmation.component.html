@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="content">
+    <mat-card class="mat-card">
+      <mat-card-content>
+        <img src="../../assets/Group16662.svg" alt="checkmark" class="checkmark" />
+        <div class="text-container">
+          <p class="bold-message">Yeah! Request Successfully Submitted</p>
+          <p>
+            Your request has been submitted successfully with
+            <span>Request ID <b>{{ params?.bookingId }}</b>.</span>
+          </p>
+          <p class="notice-message" *ngIf="!superAdmin && !isSeatApprover">
+            <mat-icon style="margin-top: -8px; font-size: 14px;" inline=true title="Read more">info</mat-icon> 
+            Your request will be auto cancelled if there is no action from your manager within 12 hours.
+          </p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button type="submit" mat-raised-button class="status-button" color="primary" (click)="onCheckStatus()">
+          Check Status
+        </button>
+        <button type="submit" mat-raised-button class="home-button" color="primary" (click)="onRedirectHome()">
+          Home
+        </button>
+      </mat-card-actions>
+      <div>
+        <img *ngFor="let image of crossMarks" [src]="image.url" [alt]="image.name" [class]="image.name" />
+      </div>
+    </mat-card>
+  </div>
+</div>

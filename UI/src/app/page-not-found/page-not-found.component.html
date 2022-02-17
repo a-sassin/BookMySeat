@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="content">
+    <mat-card class="mat-card">
+      <mat-card-content>
+        <h1 id="not-found">404</h1>
+        <h1 id="title">Oops! Something went wrong</h1>
+        <p>sorry, we can't seem to find tha page you are looking for.</p>
+        <button type="submit" mat-raised-button color="primary" (click)="onRedirectHome()">
+          Take Me Home
+        </button>
+      </mat-card-content>
+      <div>
+        <img
+          *ngFor="let chair of chairs"
+          [src]="chair.url"
+          [alt]="chair.name"
+          [class]="chair.name"
+        />
+      </div>
+    </mat-card>
+  </div>
+</div>
